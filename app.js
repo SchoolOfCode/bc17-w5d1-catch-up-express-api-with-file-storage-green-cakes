@@ -30,8 +30,7 @@ app.get('/api/recipes', async (req, res) => {
 });
 app.post('/api/recipes', async (req, res) => {
   try {
-    const userInput = req.body
-    const newRecipe = await createRecipe(userInput)
+    const newRecipe = await createRecipe(req.body)
     res.status(201).json({
       success: true, 
       payload: newRecipe
@@ -59,7 +58,9 @@ app.get('/api/recipes/:id', async (req, res) => {
   }
 });
 
-
+app.patch('/api/recipes/:id', async (req, res) => {
+  const changeRecipe = await updateRecipeByID(req.params.id)
+})
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
