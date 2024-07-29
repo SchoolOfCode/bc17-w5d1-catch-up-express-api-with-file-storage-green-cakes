@@ -21,12 +21,30 @@ app.get('/api/recipes', async (req, res) => {
     success: true, 
     payload: showRecipes
   })
-} catch (error) {
-  res.status(500).json({    
+  } catch (error) {
+  res.status(404).json({    
     success: false, 
-    payload: 'Internal server error'})
+    payload: {error: error.message}
+  })
 }
 });
+
+app.get('/api/recipes/:id', async (req, res) => {
+  try {
+    const showRecipe = await getRecipeByID(req.params.id)
+    res.status(200).json({
+      success: true,
+      payload: showRecipe
+    })
+    } catch (error) {
+    res.status(406).json({
+      success: false, 
+      payload: {error: error.message}
+    })
+  }
+});
+
+
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);

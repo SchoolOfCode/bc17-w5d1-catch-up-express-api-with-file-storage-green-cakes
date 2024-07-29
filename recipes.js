@@ -10,12 +10,22 @@ export async function getRecipes() {
         const jsonData = JSON.parse(data);
         return jsonData;
     } catch (error) {
-        console.error('Error reading file:', error);
+        throw new Error('Error reading file');
     }
 };
 
 // GET A RECIPE BY ID
-export async function getRecipeByID(id) {}
+export async function getRecipeByID(enteredId) {
+    const jsonData = await getRecipes();
+    const index = jsonData.findIndex(({id}) => id === enteredId);
+    if (index === -1) {
+        throw new Error(`No activity with ID ${enteredId} found.`);
+    } 
+    const data = jsonData[index];
+    return data;
+}
+
+
 
 // CREATE A RECIPE
 export async function createRecipe(newRecipe) {}
