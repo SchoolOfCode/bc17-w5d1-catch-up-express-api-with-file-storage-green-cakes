@@ -28,6 +28,21 @@ app.get('/api/recipes', async (req, res) => {
   })
 }
 });
+app.post('/api/recipes', async (req, res) => {
+  try {
+    const userInput = req.body
+    const newRecipe = await createRecipe(userInput)
+    res.status(201).json({
+      success: true, 
+      payload: newRecipe
+    })
+  } catch (error) {
+    res.status(404).json({    
+      success: false, 
+      payload: {error: error.message}
+  })
+}
+});
 
 app.get('/api/recipes/:id', async (req, res) => {
   try {

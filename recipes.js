@@ -28,10 +28,29 @@ export async function getRecipeByID(enteredId) {
 
 
 // CREATE A RECIPE
-export async function createRecipe(newRecipe) {}
+export async function createRecipe(newRecipe) {
+    try {
+        const userData = {
+        id: uuidv4(),
+        ...newRecipe
+        }
+        const jsonData = await getRecipes();
+        jsonData.push(userData); //updated array with the pushed data
+        const stringifiedData = JSON.stringify(jsonData, null, 2);
+        await fs.writeFile(fileName, stringifiedData);
+        console.log('File written successfully!');
+        return jsonData
+    } catch (error) {
+        throw new Error(`Error writing file.`)
+  }
+}
 
 // UPDATE A RECIPE BY ID
 export async function updateRecipeByID(id, updatedRecipe) {}
 
 // DELETE A RECIPE BY ID
 export async function deleteRecipeByID(id) {}
+
+
+
+
